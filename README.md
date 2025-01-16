@@ -38,5 +38,3 @@ Implementing the product management features.
 Creating the shopping cart and checkout process.
 Developing the admin panel for managing the e-commerce platform.
 
-Day 1: 10 Jan 2025
-We installed needed things and made login page.
