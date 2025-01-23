@@ -1,40 +1,108 @@
-# Ecommerce-Follow-Along
+# E--commerce-website
 
-Milestone 1: Project Overview to summarize what was covered in the session
+****
+## Milestone 1: Project Overview-
 
-Full-Fledged E-Commerce Application using MERN Stack
-Welcome to the exciting journey of building a full-fledged E-Commerce Application from scratch using the MERN stack (MongoDB, Express.js, React.js, and Node.js). This project will guide you through the process of creating a complete e-commerce platform, offering hands-on experience with industry-standard technologies and tools.
+In this milestone, we demonstrated the working of MERN Stack. And by using the MERN stack we are going to bulid an e-commerce website
 
-🚀 Project Overview
-In this project, we will build a dynamic, fully functional e-commerce platform with the following features:
+Which is,
 
-User Authentication: Registration and login functionality for users.
-Product Management: Adding, updating, and displaying products for sale.
-Order Handling: Managing and processing customer orders.
-Admin Panel: Features to manage products, users, and orders from the admin side.
-By the end of this project, you will have a solid understanding of how to integrate front-end and back-end technologies to create a fully-fledged web application.
+**M - MongoDB** - Used to handle databases
 
-🔧 Tech Stack
-This project uses the following technologies:
+**E - Express.js** -  Used to easily handle severs
 
-MongoDB: NoSQL database for storing product, user, and order data.
-Express.js: Backend web framework for Node.js to handle HTTP requests and routing.
-React.js: Frontend JavaScript library for building user interfaces.
-Node.js: JavaScript runtime for building the backend server.
+**R - React.js** - Used for frontedend
 
-📚 Features
-User Authentication: Secure login and registration system.
-Product Listing: Display products dynamically from the database.
-Add to Cart: Users can add products to their shopping cart.
-Order Management: Customers can place and track orders.
-Admin Dashboard: Admins can manage products, users, and orders.
+**N - Node.js** - Used with express.js for server handling
 
-📅 Milestones
-This project will be completed in several milestones, including:
+### **Project Features :- **
 
-Setting up the project structure.
-Building the user authentication system.
-Implementing the product management features.
-Creating the shopping cart and checkout process.
-Developing the admin panel for managing the e-commerce platform.
+#### **Pages**
+1. **Authentication**
+   - Login / Signup functionality.
+   - User validation and session management.
+
+2. **Product Page**
+   - Displays all available products.
+   - Allows users to view product details.
+
+3. **Orders Page**
+   - Lists all orders made by the user.
+   - Displays order history and details.
+
+4. **Payment Gateway**
+   - Integrates a secure payment system.
+   - Handles transactions seamlessly.
+****
+
+
+
+## Milestone 2: Project Overview - 
+
+In this milestone we learned how to setup a development enviroment for a backend project and also started with making Basic UI for Login page.-
+
+Key Learnings - 
+
+- Learned tailwind css for login page UI
+- Learned to setup basic tools used in backend like -
+  -  express
+  -  mongoose
+  -  dotenv
+  -  nodemon
+  -  cookie-parser
+  -  nodemailer etc...
+- And learned Basic react Routing.
+
+****
+
+
+## Milestone 3: Project Overview - 
+
+In this milestone we have learned how to setup basic backend configurations - 
+
+Key learnings -
+
+- Learned how to use express js.
+- Learned how to use the mongodb database and connect it with our server code.
+- Learned to use jsonWebTokens for authentications.
+- And finally learned to effectively handle the errors.
+
+
+## Milestone 4: Project Overview -
+
+In this milestone we learned the following things -
+
+Key learnings - 
+
+- We learned how to use mongoose schema
+- We learned how to install and use multer
+- We learned password hashing using bcrypt
+- And lastly we learned about usage of jsonWebTokens for authentication.
+
+## Milestone 5: Project Overview - 
+
+In this milestone we focused on creating a signup page for new users visiting the website,
+
+Key Learnings - 
+
+- We Learned how to create the UI for the Signup page using React and Tailwind CSS.
+- We also learned how to use RegEx (Regular expressions) for the validation of the inputs on the signup page.
+
+
+## Milestone 6: Project Overview -
+
+Key Learnings -
+
+- We learned how to encrytp the password and store it in the database (Hashing) , Using the Bcrypt package.
+- We also learned how to store data of new users inside the database.
+
+
+## Milestone 7: Project Overview - 
+
+In this milestone we simply implemented the logic for login and signup , that is if the user already exists in the database then only he/she will be able to login.
+
+
+## Milestone 8: Project Overview - 
+
+In this milestone we simply created the frontend part for the HomePage of our Website , And also learned how to route it.
 
