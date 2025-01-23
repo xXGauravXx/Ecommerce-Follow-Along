@@ -38,7 +38,6 @@ const SignupPage = () => {
     const config = {
       headers: {
         "Content-type": "multipart/form-data",
-        Accept: "any",
       },
     };
 
@@ -49,7 +48,7 @@ const SignupPage = () => {
   };
 
   return (
-      <div className="min-h-screen bg-gradient-to-bl from-violet-500 to-violet-200 px-6 py-12 flex flex-col justify-center sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-bl from-red-500 to-yellow-400 px-6 py-12 flex flex-col justify-center sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-3xl font-bold text-gray-950">
             Register as a new user
