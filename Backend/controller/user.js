@@ -4,7 +4,7 @@ const path = require("path")
 const fs = require("fs");
 
 const router = express.Router();
-const {upload} = require("../middleware/multer");
+const {upload} = require("../multer");
 const ErrorHandler = require("../utils/ErrorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const jwt = require("jsonwebtoken");
@@ -37,11 +37,11 @@ router.post("/create-user", upload.single("file"), catchAsyncErrors( async (req,
         fileUrl = path.join("uploads", req.file.filename)   ;
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("At Create", "Password:", password, "Hash:", hashedPassword);
+    console.log("At Create", "Password:", password, "Hash:", )
     const user = await User.create({
-        name,
-        email,
-        password,
+        name: name,
+        email: email,
+        password: hashedPassword,
         avatar:{
             public_id: req.file?.filename || "",
             url: fileUrl ,
@@ -58,8 +58,6 @@ router.post('/login-user',catchAsyncErrors(async (req,res,next)=>{
     console.log("Logging in user...")
 
     let {email , password}=req.body
-    email=email
-    password=password
 
     if(!email || !password){
         return next(new ErrorHandler("Provide both email and password",400))
@@ -91,5 +89,8 @@ router.post('/login-user',catchAsyncErrors(async (req,res,next)=>{
     );
 
 }))
+
+
+
 
 module.exports = router;

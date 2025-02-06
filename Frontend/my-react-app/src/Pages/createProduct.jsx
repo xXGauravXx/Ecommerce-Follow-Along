@@ -1,73 +1,88 @@
-import {useState,useEffect} from 'react'
-import {AiOutlinePlusCircle} from "react-icons/ai";
+import  { useState } from "react";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import axios from "axios";
 
 const CreateProduct = () => {
-    const [image, setImage] = useState([]);
+    const [images, setImages] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
-    const [tags,setTags] = useState('');
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [category, setCategory] = useState("");
+    const [tags, setTags] = useState([]);
     const [price, setPrice] = useState("");
-    const [stock,setStock]=useState("");
+    const [stock, setStock] = useState("");
     const [email, setEmail] = useState("");
 
     const categoriesData = [
-        {title: "Electronics"},
-        {title: "Fashion"},
-        {title: "Books"},
-        {title: "Home Appliances"}
-    ]
+        { title: "Electronics" },
+        { title: "Clothing" },
+        { title: "Books" },
+        { title: "Home & Garden" },
+    ];
 
-    const handleImagesChange=(e)=>{
+    const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
-        setImage((previewImages)=>previewImages.concat(files));
-        const imagePreviews=files.map((file)=> URL.createObjectURL(file));
-        setPreviewImages((prevPreviews)=>prevPreviews.concat(imagePreviews));
-    }
+        setImages((prevImages) => prevImages.concat(files));
 
-    useEffect(() => {
-        return ()=>{
-            previewImages.forEach((e)=>URL.revokeObjectURL(e))
+        const imagePreviews = files.map((file) => URL.createObjectURL(file));
+        setPreviewImages((prevPreviews) => prevPreviews.concat(imagePreviews));
+    };
 
-        }
-    }, [previewImages])
+    // Cleanup function to revoke object URLs when component unmounts
+    // useEffect(() => {
+    //     return () => {
+    //         previewImages.forEach((url) => URL.revokeObjectURL(url));
+    //     };
+    // }, [previewImages]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        const productData = {
-            name: name,
-            description: description,
-            category: category,
-            tags: tags,
-            price: price,
-            stock: stock,
-            email: email,
-            image: image,
-        }
-        console.log("Product data", productData);
-        alert("Product created successfully")
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        setImage([])
-        setPreviewImages([])
-        setName('')
-        setDescription('')
-        setCategory('')
-        setTags('')
-        setPrice('')
-        setStock('')
-        setEmail('')
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("description", description);
+        formData.append("category", category);
+        formData.append("tags", tags);
+        formData.append("price", price);
+        formData.append("stock", stock);
+        formData.append("email", email);
 
-    }
+        // Append image files to formData
+        images.forEach((image) => {
+            formData.append("images", image);
+        });
+
+        const config = {
+            headers: {
+                "Content-type": "multipart/form-data",
+                "Accept": "any",
+            },
+        };
+
+        axios.post("http://localhost:8000/api/v2/product/create-product", formData, config).then((res) => {
+            console.log("Response: ", res.data);
+        }).catch((err) => {
+            console.log("Error: ", err);
+        });
+
+        // try {
+        //     const response = await axios.post("http://localhost:8000/api/v2/product/create-product", formData, config);
+        //     console.log("Response: ", response.data);
+        //     alert("Product created successfully!");
+        // } catch (error) {
+        //     console.log("Error: ", error);
+        //     alert("An error occurred while creating the product.");
+        // }
+    };
 
     return (
-        <div className="min-h-screen bg-gradient-to-bl from-red-500 to-yellow-400 px-6 py-12 flex flex-col justify-center sm:px-9 lg:px-8">
-            <div className="w-[90%] max-w-[600px] bd-white shadow h-auto rounded-[4px] p-4 mx-auto  ">
-                <h5 className="mt-6-text-center text-3xl font-bold text-gray-900">Create Product</h5>
+        <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-12 flex flex-col justify-center items-center sm:px-6 lg:px-8">
+            <div className="w-[90%] max-w-[600px] pxbd-white shadow h-auto rounded-[4px] p-4 mx-auto">
+                <h5 className="mt-6 text-center text-3xl font-bold text-gray-900">Create Product</h5>
                 <form onSubmit={handleSubmit}>
                     <div className="mt-4">
-                        <label className="block text-sm font-bold text-gray-700">
-                            Email <span className="text-sm text-red-500">*</span>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Email <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="email"
@@ -75,11 +90,12 @@ const CreateProduct = () => {
                             className="w-full p-2 border rounded"
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
-                            required/>
+                            required
+                        />
                     </div>
                     <div className="mt-4">
-                        <label className="block text-sm font-bold text-gray-700">
-                            Name <span className="text-sm text-red-500">*</span>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Product Name <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="text"
@@ -87,110 +103,120 @@ const CreateProduct = () => {
                             className="w-full p-2 border rounded"
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Enter product name"
-                            required/>
+                            required
+                        />
                     </div>
                     <div className="mt-4">
-                        <label className="block text-sm font-bold text-gray-700">
-                            Description <span className="text-sm text-red-500">*</span>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Description <span className="text-red-500">*</span>
                         </label>
                         <textarea
                             value={description}
                             className="w-full p-2 border rounded"
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Enter product's description"
-                            rows="5"
-                            required/>
-                    </div>
-
-                    <div className="mt-4">
-                        <label className="block text-sm font-bold text-gray-700">
-                            Category <span className="text-sm text-red-500">*</span>
-                        </label>
-                        <select
-
-                            value={category}
-                            className="w-full p-2 border rounded"
-                            onChange={(e) => setCategory(e.target.value)}
-                            required>
-                            <option className="block text-s font-medium text-gray-200">Choose a Category</option>
-                            {categoriesData.map((category) => {
-                                <option value={category.title} key={category.title}>
-                                    {category.title}
-                                </option>
-                            })}
-                        </select>
-                    </div>
-
-                    <div className="mt-4">
-                        <label className="block text-sm font-bold text-gray-700">
-                            Tags <span className="text-sm text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            value={tags}
-                            className="w-full p-2 border rounded"
-                            onChange={(e) => setTags(e.target.value)}
-                            placeholder="Enter product's Tags"
+                            placeholder="Enter product description"
+                            rows={5}
+                            required
                         />
                     </div>
                     <div className="mt-4">
-                        <label className="block text-sm font-bold text-gray-700">
-                            Price <span className="text-sm text-red-500">*</span>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Category <span className="text-red-500">*</span>
+                        </label>
+                        <select
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="w-full p-2 border rounded"
+                            required
+                        >
+                            <option className="text-sm font-medium text-gray-700" value="">
+                                Select a category
+                            </option>
+                            {categoriesData.map((category) => (
+                                <option key={category.title} value={category.title}>
+                                    {category.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-700">
+                            Tags <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            value={tags.join(", ")}
+                            className="w-full p-2 border rounded"
+                            onChange={(e) => setTags(e.target.value.split(", "))}
+                            placeholder="Enter product tags (comma-separated)"
+                            required
+                        />
+                    </div>
+                    <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-700">
+                            Price <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="number"
                             value={price}
                             className="w-full p-2 border rounded"
                             onChange={(e) => setPrice(e.target.value)}
-                            placeholder="Enter product's price"
-                            required/>
+                            placeholder="Enter product price"
+                            required
+                        />
                     </div>
                     <div className="mt-4">
-                        <label className="block text-sm font-bold text-gray-700">
-                            Stock <span className="text-sm text-red-500">*</span>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Stock <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="number"
                             value={stock}
                             className="w-full p-2 border rounded"
                             onChange={(e) => setStock(e.target.value)}
-                            placeholder="Enter stock quantity"
-                            required/>
+                            placeholder="Enter product stock"
+                            required
+                        />
                     </div>
-                    <div className="mt-4">
-                        <label className="block text-sm font-bold text-gray-700">
-                            Upload Images <span className="text-sm text-red-500">*</span>
-                        </label>
-                        <input
-                            type="file"
-                            id="upload"
-                            className="hidden"
-                            onChange={handleImagesChange}
-                            required/>
-
-                        <label htmlFor="upload" className="cursor-pointer p-2">
-                            <AiOutlinePlusCircle size={20} color="#555"/>
-                        </label>
-                        <div className="flex flex-wrap items-center justify-center p-2">
-                            {previewImages.map((img,index)=>(
-                            <img
-                            src={img}
-                            key={index}
-                            alt="Preview"
-                            className="object-cover object-center"/>
-                        ))}
+                    <div className="mt-4 flex justify-center">
+                        <div className="flex gap-2">
+                            <label className="block text-sm font-medium text-gray-700">
+                                Product Images <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="file"
+                                id="upload"
+                                multiple
+                                onChange={handleImageChange}
+                                required
+                            />
+                            <label htmlFor="upload" className="cursor-pointer p-2">
+                                <AiOutlinePlusCircle size={20} color="#555" />
+                            </label>
                         </div>
-
+                        <div className="flex flex-wrap mt-2">
+                            {previewImages.map((image, index) => (
+                                <img
+                                    src={image}
+                                    key={index}
+                                    alt="Product Image"
+                                    className="w-[100px] h-[100px] object-cover m-2"
+                                />
+                            ))}
+                        </div>
                     </div>
-
-                    <button
-                        type="submit"
-                        className="w-full flex items-center justify-center p-2">Create</button>
+                    <div className="mt-6 flex justify-center">
+                        <button
+                            type="submit"
+                            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                        >
+                            Create Product
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
-    )
-
-}
+    );
+};
 
 export default CreateProduct;
